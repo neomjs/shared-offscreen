@@ -73,6 +73,10 @@ class MainContainer extends Viewport {
                 reference: 'time-label',
                 style    : {marginLeft: '2em'},
                 text     : `Time: ${me.getTime()}`
+            }, {
+                handler: me.moveCanvas.bind(me),
+                style  : {marginLeft: 'auto'},
+                text   : 'Move Canvas',
             }]
         }];
     }
@@ -108,12 +112,22 @@ class MainContainer extends Viewport {
         });
     }
 
+    /**
+     * @returns {String}
+     */
     getTime() {
         return new Date().toLocaleString(Neo.config.locale, {
             hour  : '2-digit',
             minute: '2-digit',
             second: '2-digit'
         });
+    }
+
+    /**
+     * @param {Object} data
+     */
+    moveCanvas(data) {
+        console.log('moveCanvas')
     }
 
     /**
