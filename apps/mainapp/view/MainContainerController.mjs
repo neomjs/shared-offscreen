@@ -1,10 +1,16 @@
 import Component from '../../../node_modules/neo.mjs/src/controller/Component.mjs';
+import NeoArray  from '../../../node_modules/neo.mjs/src/util/Array.mjs';
 
 /**
  * @class MainApp.view.MainContainerController
  * @extends Neo.controller.Component
  */
 class MainContainerController extends Component {
+    /**
+     * @member {String[]} connectedApps=[]
+     */
+    connectedApps = []
+
     static getConfig() {return {
         /*
          * @member {String} className='MainApp.view.MainContainerController'
@@ -66,7 +72,17 @@ class MainContainerController extends Component {
      * @param {String} data.appName
      */
     onAppConnect(data) {
-        console.log('onAppConnect')
+        let me      = this,
+            appName = data.appName;
+
+        console.log('onAppConnect', appName);
+
+        switch(appName) {
+            case 'ChildApp': {
+                NeoArray.add(me.connectedApps, appName);
+                break;
+            }
+        }
     }
 
     /**
@@ -74,7 +90,22 @@ class MainContainerController extends Component {
      * @param {String} data.appName
      */
     onAppDisconnect(data) {
-        console.log('onAppDisconnect')
+        let me      = this,
+            appName = data.appName;
+
+        console.log('onAppDisconnect', appName);
+
+        switch(appName) {
+            case 'MainApp': {
+                Neo.Main.windowClose({
+                    appName,
+                    names: me.connectedApps,
+                });
+                break;
+            }
+        }
+
+        NeoArray.remove(me.connectedApps, appName);
     }
 
     /**
