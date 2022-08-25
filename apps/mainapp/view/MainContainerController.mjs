@@ -30,10 +30,35 @@ class MainContainerController extends Component {
     }
 
     /**
+     * @param {String} containerReference
+     * @param {String} url
+     * @param {String} windowName
+     */
+    createPopupWindow(containerReference, url, windowName) {
+        let me = this;
+
+        Neo.Main.getWindowData().then(winData => {
+            me.component.getDomRect(me.getReference(containerReference).id).then(data => {
+                let {height, left, top, width} = data;
+
+                height -= 50; // popup header in Chrome
+                left   += winData.screenLeft;
+                top    += (winData.outerHeight - winData.innerHeight + winData.screenTop);
+
+                Neo.Main.windowOpen({
+                    url           : `../${url}/index.html`,
+                    windowFeatures: `height=${height},left=${left},top=${top},width=${width}`,
+                    windowName
+                });
+            });
+        });
+    }
+
+    /**
      * @param {Object} data
      */
     moveCanvas(data) {
-        console.log('moveCanvas')
+        this.createPopupWindow('webgl-component', 'childapp', 'ChildApp');
     }
 
     /**
