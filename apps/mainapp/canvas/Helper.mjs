@@ -240,7 +240,10 @@ class Helper extends Base {
 
             me.series(me.data);
 
-            requestAnimationFrame(me.render.bind(me));
+            // requestAnimationFrame(me.render.bind(me));
+
+            // poor hack to fake requestAnimationFrame inside a SharedWorker
+            setTimeout(me.render.bind(me), 1000 / 60);
         }
     }
 
@@ -258,6 +261,8 @@ class Helper extends Base {
             webGl = Neo.currentWorker.map[canvasId].getContext('webgl');
 
             me.series.context(webGl);
+            console.log(Neo.currentWorker.map[canvasId]);
+            console.log(webGl.commit);
             !silent && me.render();
         }
     }
