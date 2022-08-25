@@ -28,11 +28,12 @@ class MainContainer extends Viewport {
          * @member {Object[]} items
          */
         items: [{
-            ntype : 'container',
-            flex  : 1,
-            items : [{module: WebGlComponent, reference: 'webgl-component'}],
-            layout: {ntype: 'fit'},
-            vdom  : {tag: 'd3fc-group', 'auto-resize': true, cn: []}
+            ntype    : 'container',
+            flex     : 1,
+            items    : [{module: WebGlComponent, reference: 'webgl-component'}],
+            layout   : {ntype: 'fit'},
+            reference: 'webgl-container',
+            vdom     : {tag: 'd3fc-group', 'auto-resize': true, cn: []}
         }, {
             module: Toolbar,
             flex  : 'none',

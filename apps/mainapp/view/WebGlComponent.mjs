@@ -56,7 +56,7 @@ class WebGlComponent extends Canvas {
                 // remote method access to the canvas worker
                 MainApp.canvas.Helper.renderSeries(this.getCanvasId());
 
-                Neo.main.DomAccess.getBoundingClientRect({id: me.id}).then(rect => {
+                Neo.main.DomAccess.getBoundingClientRect({appName: me.appName, id: me.id}).then(rect => {
                     me.updateSize(rect.height, rect.width);
                 });
             }, 50);

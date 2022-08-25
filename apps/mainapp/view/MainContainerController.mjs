@@ -23,12 +23,11 @@ class MainContainerController extends Component {
      * @param {Object} data
      */
     changeItemAmount(data) {
-        let me    = this,
-            count = data.component.value;
+        let count = data.component.value;
 
         MainApp.canvas.Helper.changeItemsAmount(count);
 
-        me.items[1].items.forEach(item => {
+        this.component.items[1].items.forEach(item => {
             if (item.toggleGroup === 'itemAmount') {
                 item.pressed = item.value === count;
             }
@@ -61,6 +60,18 @@ class MainContainerController extends Component {
     }
 
     /**
+     * @param {String} [appName]
+     * @returns {Neo.component.Base}
+     */
+    getMainView(appName) {
+        if (!appName || appName === 'MainApp') {
+            return this.component;
+        }
+
+        return Neo.apps[appName].mainView;
+    }
+
+    /**
      * @param {Object} data
      */
     moveCanvas(data) {
@@ -80,16 +91,16 @@ class MainContainerController extends Component {
 
         switch(appName) {
             case 'ChildApp': {
+                me.getReference('webgl-container').remove(canvasNode, false);
+                canvasNode.offscreenRegistered = false;
+
                 NeoArray.add(me.connectedApps, appName);
 
-                canvasNode.unmount();
-
-                setTimeout(() => {
-                    MainApp.canvas.Helper.transferNode({
-                        appName,
-                        canvasId: canvasNode.id
-                    });
-                }, 100);
+                Neo.apps[appName].on('render', () => {
+                    setTimeout(() => {
+                        me.getMainView(appName).add(canvasNode);
+                    }, 100);
+                });
                 break;
             }
         }
