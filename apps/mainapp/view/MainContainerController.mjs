@@ -38,6 +38,37 @@ class MainContainerController extends Component {
 
     /**
      * @param {Object} data
+     * @param {String} data.appName
+     */
+    onAppConnect(data) {
+        console.log('onAppConnect')
+    }
+
+    /**
+     * @param {Object} data
+     * @param {String} data.appName
+     */
+    onAppDisconnect(data) {
+        console.log('onAppDisconnect')
+    }
+
+    /**
+     *
+     */
+    onConstructed() {
+        super.onConstructed();
+
+        let me = this;
+
+        Neo.currentWorker.on({
+            connect   : me.onAppConnect,
+            disconnect: me.onAppDisconnect,
+            scope     : me
+        });
+    }
+
+    /**
+     * @param {Object} data
      */
     onStopAnimationButtonClick(data) {
         let enableAnimation = true,
