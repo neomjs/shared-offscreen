@@ -18,6 +18,8 @@
         "watch-themes": "node ./node_modules/neo.mjs/buildScripts/watchThemes.mjs"
     },
     "dependencies": {
+        "d3": "^7.6.1",
+        "d3fc": "^15.2.6",
         "neo.mjs": "^4.0.92"
     }
 }
