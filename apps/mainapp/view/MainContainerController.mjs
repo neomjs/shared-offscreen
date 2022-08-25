@@ -80,6 +80,7 @@ class MainContainerController extends Component {
         switch(appName) {
             case 'ChildApp': {
                 NeoArray.add(me.connectedApps, appName);
+                MainApp.canvas.Helper.transferNode({ appName });
                 break;
             }
         }

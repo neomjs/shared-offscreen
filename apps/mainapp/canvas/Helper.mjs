@@ -57,6 +57,7 @@ class Helper extends Base {
                 'changeItemsAmount',
                 'enableAnimation',
                 'renderSeries',
+                'transferNode',
                 'updateSize'
             ]
         },
@@ -265,6 +266,14 @@ class Helper extends Base {
             console.log(webGl.commit);
             !silent && me.render();
         }
+    }
+
+    /**
+     * @param {Object} data
+     * @param {String} data.appName
+     */
+    transferNode(data) {
+        console.log('transferNode', data.appName);
     }
 
     /**
