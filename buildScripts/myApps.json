@@ -20,6 +20,7 @@
         }
     },
     "apps": [
+        "ChildApp",
         "Docs",
         "MainApp"
     ]

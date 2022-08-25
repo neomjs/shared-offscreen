@@ -1,0 +1,8 @@
+{
+    "appPath": "../../apps/childapp/app.mjs",
+    "basePath": "../../",
+    "environment": "development",
+    "mainPath": "../node_modules/neo.mjs/src/Main.mjs",
+    "useSharedWorkers": true,
+    "workerBasePath": "../../node_modules/neo.mjs/src/worker/"
+}
