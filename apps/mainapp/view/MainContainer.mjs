@@ -30,7 +30,7 @@ class MainContainer extends Viewport {
         items: [{
             ntype : 'container',
             flex  : 1,
-            items : [{module:WebGlComponent, reference: 'webgl-component'}],
+            items : [{module: WebGlComponent, reference: 'webgl-component'}],
             layout: {ntype: 'fit'},
             vdom  : {tag: 'd3fc-group', 'auto-resize': true, cn: []}
         }, {

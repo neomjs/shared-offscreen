@@ -262,8 +262,6 @@ class Helper extends Base {
             webGl = Neo.currentWorker.map[canvasId].getContext('webgl');
 
             me.series.context(webGl);
-            console.log(Neo.currentWorker.map[canvasId]);
-            console.log(webGl.commit);
             !silent && me.render();
         }
     }
@@ -271,9 +269,25 @@ class Helper extends Base {
     /**
      * @param {Object} data
      * @param {String} data.appName
+     * @param {String} data.canvasId
      */
     transferNode(data) {
-        console.log('transferNode', data.appName);
+        let me     = this,
+            id     = `${data.canvasId}__canvas`,
+            node   = Neo.currentWorker.map[id].transferToImageBitmap(),
+            worker = Neo.currentWorker;
+
+        worker.promiseMessage('main', {
+            action : 'setOffscreenCanvas',
+            appName: data.appName,
+            node,
+            nodeId: id
+        }, [node]).then(data => {
+            console.log(data);
+        });
+
+        console.log('transferNode', data.appName, data.canvasId);
+        console.log(node);
     }
 
     /**

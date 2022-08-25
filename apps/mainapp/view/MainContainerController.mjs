@@ -72,15 +72,24 @@ class MainContainerController extends Component {
      * @param {String} data.appName
      */
     onAppConnect(data) {
-        let me      = this,
-            appName = data.appName;
+        let me         = this,
+            appName    = data.appName,
+            canvasNode = me.getReference('webgl-component');
 
-        console.log('onAppConnect', appName);
+        console.log('onAppConnect', appName, canvasNode);
 
         switch(appName) {
             case 'ChildApp': {
                 NeoArray.add(me.connectedApps, appName);
-                MainApp.canvas.Helper.transferNode({ appName });
+
+                canvasNode.unmount();
+
+                setTimeout(() => {
+                    MainApp.canvas.Helper.transferNode({
+                        appName,
+                        canvasId: canvasNode.id
+                    });
+                }, 100);
                 break;
             }
         }
