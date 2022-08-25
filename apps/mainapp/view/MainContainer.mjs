@@ -1,7 +1,8 @@
-import Label          from '../../../node_modules/neo.mjs/src/component/Label.mjs';
-import Toolbar        from '../../../node_modules/neo.mjs/src/toolbar/Base.mjs';
-import Viewport       from '../../../node_modules/neo.mjs/src/container/Viewport.mjs';
-import WebGlComponent from './WebGlComponent.mjs';
+import Label                   from '../../../node_modules/neo.mjs/src/component/Label.mjs';
+import MainContainerController from './MainContainerController.mjs';
+import Toolbar                 from '../../../node_modules/neo.mjs/src/toolbar/Base.mjs';
+import Viewport                from '../../../node_modules/neo.mjs/src/container/Viewport.mjs';
+import WebGlComponent          from './WebGlComponent.mjs';
 
 /**
  * @class MainApp.view.MainContainer
@@ -20,20 +21,13 @@ class MainContainer extends Viewport {
          */
         autoMount: true,
         /**
-         * @member {Object} layout={ntype:'vbox',align:'stretch'}
+         * @member {Neo.controller.Component} controller=MainContainerController
          */
-        layout: {ntype: 'vbox', align: 'stretch'}
-    }}
-
-    /**
-     * @param {Object} config
-     */
-    construct(config) {
-        super.construct(config);
-
-        let me = this;
-
-        me.items = [{
+        controller: MainContainerController,
+        /**
+         * @member {Object[]} items
+         */
+        items: [{
             ntype : 'container',
             flex  : 1,
             items : [WebGlComponent],
@@ -43,27 +37,27 @@ class MainContainer extends Viewport {
             module: Toolbar,
             flex  : 'none',
             items : [{
-                handler: me.onStopAnimationButtonClick.bind(me),
+                handler: 'onStopAnimationButtonClick',
                 text   : 'Stop Animation'
             }, {
-                handler: me.onStopMainButtonClick.bind(me),
+                handler: 'onStopMainButtonClick',
                 style  : {marginLeft: '.2em'},
                 text   : 'Stop Main'
             }, {
-                handler    : me.changeItemAmount.bind(me, 10000),
+                handler    : 'changeItemAmount',
                 pressed    : true,
                 style      : {marginLeft: '2em'},
                 text       : `${(10000).toLocaleString()} items`,
                 toggleGroup: 'itemAmount',
                 value      : 10000
             }, {
-                handler    : me.changeItemAmount.bind(me, 100000),
+                handler    : 'changeItemAmount',
                 style      : {marginLeft: '.2em'},
                 text       : `${(100000).toLocaleString()} items`,
                 toggleGroup: 'itemAmount',
                 value      : 100000
             }, {
-                handler    : me.changeItemAmount.bind(me, 1000000),
+                handler    : 'changeItemAmount',
                 style      : {marginLeft: '.2em'},
                 text       : `${(1000000).toLocaleString()} items`,
                 toggleGroup: 'itemAmount',
@@ -71,15 +65,18 @@ class MainContainer extends Viewport {
             }, {
                 module   : Label,
                 reference: 'time-label',
-                style    : {marginLeft: '2em'},
-                text     : `Time: ${me.getTime()}`
+                style    : {marginLeft: '2em'}
             }, {
-                handler: me.moveCanvas.bind(me),
+                handler: 'moveCanvas',
                 style  : {marginLeft: 'auto'},
                 text   : 'Move Canvas',
             }]
-        }];
-    }
+        }],
+        /**
+         * @member {Object} layout={ntype:'vbox',align:'stretch'}
+         */
+        layout: {ntype: 'vbox', align: 'stretch'}
+    }}
 
     /**
      * Triggered after the mounted config got changed
@@ -98,21 +95,6 @@ class MainContainer extends Viewport {
     }
 
     /**
-     * @param {Number} count
-     */
-    changeItemAmount(count) {
-        let me = this;
-
-        MainApp.canvas.Helper.changeItemsAmount(count);
-
-        me.items[1].items.forEach(item => {
-            if (item.toggleGroup === 'itemAmount') {
-                item.pressed = item.value === count;
-            }
-        });
-    }
-
-    /**
      * @returns {String}
      */
     getTime() {
@@ -121,43 +103,6 @@ class MainContainer extends Viewport {
             minute: '2-digit',
             second: '2-digit'
         });
-    }
-
-    /**
-     * @param {Object} data
-     */
-    moveCanvas(data) {
-        console.log('moveCanvas')
-    }
-
-    /**
-     * @param {Object} data
-     */
-    onStopAnimationButtonClick(data) {
-        let enableAnimation = true,
-            buttonText;
-
-        if (data.component.text === 'Stop Animation') {
-            buttonText      = 'Start Animation';
-            enableAnimation = false;
-        } else {
-            buttonText = 'Stop Animation';
-        }
-
-        data.component.text = buttonText;
-
-        MainApp.canvas.Helper.enableAnimation(enableAnimation);
-    }
-
-    /**
-     * @param {Object} data
-     */
-    onStopMainButtonClick(data) {
-        Neo.Main.alert([
-            'This alert pauses the JS main thread.\n\n',
-            'Notice that the time inside the bottom toolbar has stopped updating.\n\n',
-            'Closing this alert will resume the main thread.'
-        ].join(''));
     }
 }
 
