@@ -231,20 +231,20 @@ class Helper extends Base {
     /**
      *
      */
-    render() {
-        let me   = this,
+    render(force=false) {
+        let me = this,
+        ease;
+
+        if (force || !me.stopAnimation) {
             ease = 5 * (0.51 + 0.49 * Math.sin(Date.now() / 1e3));
 
-        if (!me.stopAnimation) {
             me.xScale.domain([-ease, ease]);
             me.yScale.domain([-ease, ease]);
 
             me.series(me.data);
 
+            // sadly not available
             // requestAnimationFrame(me.render.bind(me));
-
-            // poor hack to fake requestAnimationFrame inside a SharedWorker
-            setTimeout(me.render.bind(me), 1000 / 60);
         }
     }
 
@@ -262,7 +262,14 @@ class Helper extends Base {
             webGl = Neo.currentWorker.map[canvasId].getContext('webgl');
 
             me.series.context(webGl);
-            !silent && me.render();
+
+            // enforced rendering to apply the state when stopAnimation is present
+            setTimeout(() => {
+                me.render(true);
+
+                // poor hack to fake requestAnimationFrame inside a SharedWorker
+                !silent && setInterval(me.render.bind(me), 1000 / 60);
+            }, 1000 / 60);
         }
     }
 
