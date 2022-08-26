@@ -268,30 +268,6 @@ class Helper extends Base {
 
     /**
      * @param {Object} data
-     * @param {String} data.appName
-     * @param {String} data.canvasId
-     */
-    transferNode(data) {
-        let me     = this,
-            id     = `${data.canvasId}__canvas`,
-            node   = Neo.currentWorker.map[id].transferToImageBitmap(),
-            worker = Neo.currentWorker;
-
-        worker.promiseMessage('main', {
-            action : 'setOffscreenCanvas',
-            appName: data.appName,
-            node,
-            nodeId: id
-        }, [node]).then(data => {
-            console.log(data);
-        });
-
-        console.log('transferNode', data.appName, data.canvasId);
-        console.log(node);
-    }
-
-    /**
-     * @param {Object} data
      * @param {Number} data.height
      * @param {Number} data.width
      */
