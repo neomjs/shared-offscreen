@@ -87,7 +87,7 @@ class MainContainerController extends Component {
             appName    = data.appName,
             canvasNode = me.getReference('webgl-component');
 
-        console.log('onAppConnect', appName, canvasNode);
+        console.log('onAppConnect', appName);
 
         switch(appName) {
             case 'ChildApp': {
@@ -114,7 +114,7 @@ class MainContainerController extends Component {
             appName    = data.appName,
             canvasNode = me.getReference('webgl-component');
 
-        console.log('onAppDisconnect', appName, canvasNode);
+        console.log('onAppDisconnect', appName);
 
         switch(appName) {
             case 'ChildApp': {
@@ -134,6 +134,8 @@ class MainContainerController extends Component {
                 break;
             }
         }
+
+        Neo.apps[appName].destroy();
     }
 
     /**
