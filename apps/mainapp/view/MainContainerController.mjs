@@ -92,7 +92,6 @@ class MainContainerController extends Component {
         switch(appName) {
             case 'ChildApp': {
                 me.getReference('webgl-container').remove(canvasNode, false);
-                canvasNode.offscreenRegistered = false;
 
                 NeoArray.add(me.connectedApps, appName);
 
@@ -111,22 +110,30 @@ class MainContainerController extends Component {
      * @param {String} data.appName
      */
     onAppDisconnect(data) {
-        let me      = this,
-            appName = data.appName;
+        let me         = this,
+            appName    = data.appName,
+            canvasNode = me.getReference('webgl-component');
 
-        console.log('onAppDisconnect', appName);
+        console.log('onAppDisconnect', appName, canvasNode);
 
         switch(appName) {
+            case 'ChildApp': {
+                NeoArray.remove(me.connectedApps, appName);
+
+                me.getMainView(appName).remove(canvasNode, false);
+
+                me.getReference('webgl-container').add(canvasNode);
+                break;
+            }
+
             case 'MainApp': {
                 Neo.Main.windowClose({
                     appName,
-                    names: me.connectedApps,
+                    names: me.connectedApps
                 });
                 break;
             }
         }
-
-        NeoArray.remove(me.connectedApps, appName);
     }
 
     /**
