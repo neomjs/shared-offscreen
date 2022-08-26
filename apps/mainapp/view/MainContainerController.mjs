@@ -176,11 +176,14 @@ class MainContainerController extends Component {
      * @param {Object} data
      */
     onStopMainButtonClick(data) {
-        Neo.Main.alert([
-            'This alert pauses the JS main thread.\n\n',
-            'Notice that the time inside the bottom toolbar has stopped updating.\n\n',
-            'Closing this alert will resume the main thread.'
-        ].join(''));
+        Neo.Main.alert({
+            appName: this.getReference('webgl-component').appName,
+            message: [
+                'This alert pauses the JS main thread.\n\n',
+                'Notice that the time inside the bottom toolbar has stopped updating.\n\n',
+                'Closing this alert will resume the main thread.'
+            ].join('')
+        });
     }
 }
 
