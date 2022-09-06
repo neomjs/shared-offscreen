@@ -4,6 +4,12 @@ Rendering a Canvas node with a WebGL content and moving it into different window
 ## Based on the neo frontend framework:
 https://github.com/neomjs/neo
 
+## Intro video:
+https://www.youtube.com/watch?v=o_lyowmLzaU
+
+## Online demo (Chromium):
+https://neomjs.github.io/pages2/workspace/neo-shared-offscreen-canvas-demo/apps/mainapp/index.html
+
 ## Dedicated worker based demo:
 https://github.com/neomjs/offscreen-canvas
 
